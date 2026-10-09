@@ -1,0 +1,15 @@
+@if (isModal()) {
+  <div class="position-absolute bg-white shadow z-3 recuadro-paleta justify-content-center mt-3 rounded" style="width: 280px !important; margin-top: -40px;">
+    @for (item of listadoColores(); track $index) {
+        <button type="button" class="btn {{item.bg}} {{item.bg === 'bg-white' ? 'btn-outline-dark' : ''}}" (click)="colorSelected.emit(item.bg)"
+        style="width: 24px !important; height: 24px !important; margin: 4px;">  </button>
+      }
+  </div>
+} @else {
+  <div class="position-absolute bg-white shadow z-3 recuadro-paleta justify-content-center mt-3 rounded" style="width: 140px !important;">
+    @for (item of listadoColores(); track $index) {
+        <button type="button" class="btn {{item.bg}} {{item.bg === 'bg-white' ? 'btn-outline-dark' : ''}}" (click)="colorSelected.emit(item.bg)"
+        style="width: 24px !important; height: 24px !important; margin: 4px;">  </button>
+      }
+  </div>
+}

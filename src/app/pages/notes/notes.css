@@ -1,0 +1,35 @@
+.masonry-container {
+  column-width: 260px; /* ancho fijo como Bootstrap col-3 */
+  column-gap: 16px;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 16px;
+}
+/* Responsive como Google Keep */
+@media (max-width: 1200px) {
+ .masonry-container {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+ .masonry-container {
+    column-count: 2;
+  }
+}
+
+/* @media (max-width: 576px) {
+ .masonry-container {
+    column-count: 1;
+  }
+} */
+
+@media (max-width: 374px) {
+ .masonry-container {
+    column-count: 1;
+  }
+}

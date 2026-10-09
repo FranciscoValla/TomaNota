@@ -1,0 +1,57 @@
+<div class="card p-0 mb-4 {{note().color}}">
+  <div class="card-body p-1 px-2 {{textColor()}}">
+    @if(note().img) {
+    <div class="col-12 rounded pt-2">
+      <img [src]="note().img" class="w-100 img-base rounded">
+    </div>
+    }
+    <p class="m-0 p-0 mt-1 mb-1 fs-5 fw-semibold">{{note().title}}</p>
+    @if ( !isArray() ) {
+    <p class="card-text {{textColor()}} p-0 m-0">{{note().content}}</p>
+    } @else {
+    <table class="table table-borderless">
+      <tbody>
+        @for (item of (contentAsArray()); track $index) {
+        @if( item.type ) {
+        <tr>
+          <th class="p-0 m-0 bg-transparent {{textColor()}}" style="width: 26px !important;">
+            <i class="fa-regular fa-square" style="font-size: 18px !important;"></i>
+          </th>
+          <td class="p-0 m-0 bg-transparent {{textColor()}}">{{ item.txt }}</td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+    <table class="table table-borderless border-top {{textColor()}} mt-2">
+      <tbody>
+        @for (item of (contentAsArray()); track $index) {
+        @if( !item.type ) {
+        <tr class="">
+          <th scope="row" class="p-0 m-0 bg-transparent {{textColor()}}" style="width: 26px !important;">
+            <i class="fa-regular fa-square-check text-decoration-line-through" style="font-size: 18px !important;"></i>
+          </th>
+          <td class="text-decoration-line-through p-0 bg-transparent {{textColor()}}">{{ item.txt }}</td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+    }
+  </div>
+  <div class="card-footer border-0 d-flex align-items-center gap-2 p-2">
+
+    <div class="p-0 d-flex justify-content-center align-items-center rounded"
+      (click)="$event.stopPropagation(); restoredBin(note());" style="cursor: pointer;" data-bs-toggle="tooltip"
+      data-bs-placement="top" title="Restaurar Nota">
+      <i class="fa-solid fa-trash-can-arrow-up {{textColor()}} p-1" style="font-size: 16px!important;"></i>
+    </div>
+
+    <div class="p-0 d-flex justify-content-center align-items-center rounded"
+      (click)="$event.stopPropagation(); deleteBin(note());" style="cursor: pointer;" data-bs-toggle="tooltip"
+      data-bs-placement="top" title="Borrar Nota">
+      <i class="fa-solid fa-trash {{textColor()}} p-1" style="font-size: 16px!important;"></i>
+    </div>
+  </div>
+
+</div>

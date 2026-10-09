@@ -1,0 +1,89 @@
+<div class="modal fade" #modalRef id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content {{noteCurrent().color}}">
+      <div class="modal-body pt-3">
+        @if(noteCurrent().img) {
+        <div class="col-12 rounded pt-0">
+          <img [src]="noteCurrent().img" class="w-100 img-base rounded">
+        </div>
+        }
+        <div class="col-11 py-1">
+          <textarea class="form-control border-0 shadow-none w-100 p-0 m-0 fw-bolder bg-transparent {{textColor()}}"
+            placeholder="Título..." id="title" rows="1" [(ngModel)]="noteCurrent().title" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Escribe para Añadir el Título" style="font-size: 20px !important;"
+            (input)="updateTitle($event)"></textarea>
+        </div>
+        @if (!isList()) {
+        <div class="row px-1 py-0">
+          <div class="p-0 m-0 px-1 py-1 col-12">
+            <textarea placeholder="Añade una nota..."
+              class="form-control border-0 shadow-none w-100 p-0 m-0 {{textColor()}} bg-transparent"
+              rows="3"  [(ngModel)]="noteCurrent().content" (input)="updateContent()"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Escribe para crear nota"></textarea>
+          </div>
+        </div>
+        } @else {
+        <ul class="list-group bg-transparen">
+          @for (item of noteCurrent().content; track $index) {
+          <li
+            class="list-group-item bg-transparent border-0 d-flex align-items-center gap-1 rounded-0 px-2 py-1 ps-0 {{textColor()}}">
+            <input class="inline-block border-0" #notaInput type="text" class="form-control bg-transparent {{textColor()}}"
+              placeholder="Escribe aqui la ..." [(ngModel)]="contentArray()[$index].txt"
+              (keydown.enter)="onEnter($event, $index)" (input)="updateList()">
+            <i class="fa-solid fa-xmark inline-block" (click)="deleteList($index)"></i>
+          </li>
+          }
+          @if (noteCurrent().content.length > 1) {
+          <li class="list-group-item bg-transparent border-0 d-flex align-items-center gap-1 rounded-0 py-1 {{textColor()}}"
+            (click)="onEnter($event, 0, true)">
+            <i class="fa-solid fa-plus ms-3 bg-transparent"></i>
+            Agregar nuevo item...
+          </li>
+          }
+        </ul>
+        }
+      </div>
+      <div class="modal-footer pt-0 border-0 w-100">
+        <div class="d-flex align-items-center w-100 px-2">
+          <!-- IZQUIERDA -->
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-0 d-flex justify-content-center align-items-center position-relative rounded"
+              (click)="isShowSelectColor.set(true)" title="Cambiar Color Fondo" style="cursor: pointer;">
+              <i class="fa-solid fa-palette {{textColor()}}"></i>
+              @if (isShowSelectColor()) {
+              <atom-select-color [colorInput]="bgColor()" [isModal]="true" (hideSelect)="isShowSelectColor.set(false)"
+                (colorSelected)="updateColor($event)" style="margin-top: -110px;">
+              </atom-select-color>
+              }
+            </div>
+
+            <div class="p-0 d-flex justify-content-center align-items-center rounded" (click)="updateNoteFix()"
+              title="Fijar/DesFijar Nota" style="cursor: pointer;">
+              <i class="fa-solid {{textColor()}}"
+                [ngClass]="noteCurrent().fix? 'fa-thumbtack-slash' : 'fa-thumbtack'"></i>
+            </div>
+
+            <div class="p-0 d-flex justify-content-center align-items-center rounded">
+              <label class="m-0" [for]="'modal'+ noteCurrent().id" title="Agregar Imagen">
+                <i class="fa-solid fa-image {{textColor()}}" style="cursor: pointer;"></i>
+              </label>
+              <input type="file" [id]="'modal'+ noteCurrent().id" class="d-none" accept="image/*"
+                (change)="onFileSelected($event)">
+            </div>
+          </div>
+
+          <!-- DERECHA - solo trash -->
+          <div class="p-0 d-flex justify-content-center align-items-center rounded ms-auto"
+            (click)="$event.stopPropagation(); deleteNote(noteInput().id);" title="Borrar Nota"
+            style="cursor: pointer;">
+            <i class="fa-solid fa-trash {{textColor()}} p-1"></i>
+          </div>
+          <button type="button" class="btn-close d-flex justify-content-center align-items-center ms-2"
+          [style.filter]="textColor() === 'text-white' ? 'invert(1) grayscale(1) brightness(2)' : 'none'" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="new-note border border-secondary-subtle rounded px-2 {{bgColor()}} w-100 mt-3 mb-4">
+  @if (isExpanded()) {
+  <div class="row">
+    @if(isExpanded() && imagenUrl()) {
+      <div class="col-12">
+        <img [src]="imagenUrl()" class="w-100 rounded img-base">
+      </div>
+    }
+    <div class="col-11 py-1">
+      <textarea class="form-control border-0 shadow-none w-100 p-0 m-0 fw-bolder bg-transparent {{textColor()}}" placeholder="Título..." id="title" rows="1" [(ngModel)]="title"
+      data-bs-toggle="tooltip" data-bs-placement="top"  title="Escribe para Añadir el Título"
+      style="font-size: 20px !important;"></textarea>
+    </div>
+  </div>
+  }
+  @if (!isList()) {
+    <div class="row px-1 py-0">
+      <div class="p-0 m-0 px-1 py-0 {{isExpanded() ? 'col-12' : 'col-11 mt-1 mb-0'}}">
+        <textarea placeholder="Añade una nota..." class="form-control border-0 shadow-none w-100 p-0 m-0 {{textColor()}} bg-transparent" [rows]="isExpanded() ? 3 : 1"
+          (focus)="isExpanded.set(true); showListButton.set(false);" [(ngModel)]="content"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Escribe para crear nota"></textarea>
+      </div>
+      <div class="col-1 p-0 m-0 d-flex justify-content-center align-items-center lisInp"
+      data-bs-toggle="tooltip" data-bs-placement="top" title="Crear Lista" [class.d-none]="!showListButton()"
+      (click)="createList()">
+        <i class="fa-regular fa-square-check {{textColor()}}" style="font-size: 22px;"></i>
+      </div>
+    </div>
+  } @else {
+    <ul class="list-group bg-transparen">
+      @for (item of listNote(); track $index) {
+        <li class="list-group-item bg-transparent border-0 d-flex align-items-center gap-1 rounded-0 px-2 py-1 ps-0 {{textColor()}}">
+          <input class="inline-block"
+          #notaInput
+          type="text"
+          class="form-control bg-transparent {{textColor()}}"
+          placeholder="Escribe aqui la ..."
+          [(ngModel)]="listNote()[$index].txt"
+          (keydown.enter)="onEnter($event, $index)">
+          <i class="fa-solid fa-xmark inline-block" (click)="deleteliList($index)"></i>
+        </li>
+      }
+      @if (listNote().length > 1) {
+        <li class="list-group-item bg-transparent d-flex align-items-center gap-1 rounded-0 px-2 py-1 {{textColor()}}"
+        (click)="onEnter($event, 0, true)">
+          <i class="fa-solid fa-plus ms-3"></i>
+          Agregar nuevo item...
+        </li>
+      }
+    </ul>
+  }
+
+  @if (isExpanded()) {
+  <div class="text-end mb-0">
+    <div class="row px-4 footer-options">
+      <div class="col-1 py-1 d-flex justify-content-center align-items-center position-relative rounded"
+      (click)="isShowSelectColor.set(true)" data-bs-toggle="tooltip" data-bs-placement="top"  title="Cambiar Color Fondo">
+        <i class="fa-solid fa-palette {{textColor()}}">
+        </i>
+        @if (isShowSelectColor()) {
+          <atom-select-color [colorInput]="bgColor()"
+          (hideSelect)="isShowSelectColor.set(false)" (colorSelected)="bgColor.set($event)">
+          </atom-select-color>
+        }
+      </div>
+      <div class="col-1 py-1 d-flex justify-content-center align-items-center rounded"
+      (click)="fix.set(!fix())" data-bs-toggle="tooltip" data-bs-placement="top"  title="Fijar/DesFijar Nota">
+        <i class="fa-solid {{textColor()}}" [ngClass]="fix() ? 'fa-thumbtack-slash' : 'fa-thumbtack'"
+          style="font-size: 18px; cursor: pointer;"></i>
+      </div>
+      <div class="col-1 py-1 d-flex justify-content-center align-items-center rounded">
+        <label class="icono-carga-contenedor m-0" for="seleccionar-imagen"
+        data-bs-toggle="tooltip" data-bs-placement="top"  title="Agregar Imagen">
+          <i class="fa-solid fa-image {{textColor()}}" style="cursor: pointer; font-size: 18px;"></i>
+        </label>
+        <input type="file" id="seleccionar-imagen" class="d-none" accept="image/*" (change)="onFileSelected($event)">
+      </div>
+      <div class="offset-4 col-4 py-1 d-flex justify-content-center align-items-center rounded"
+      (click)="createNote()" style="cursor: pointer;">
+        <span class="{{textColor()}}">Crear Nota</span>
+      </div>
+    </div>
+  </div>
+  }
+</div>

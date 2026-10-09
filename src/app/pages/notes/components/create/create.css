@@ -1,0 +1,8 @@
+
+/* --- Imagen --- */
+.img-base {
+  max-height: 350px;
+  overflow: hidden;
+  background-color: transparent;
+  object-fit: contain;
+}

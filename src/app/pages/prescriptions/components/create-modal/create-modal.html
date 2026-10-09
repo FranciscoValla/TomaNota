@@ -1,0 +1,98 @@
+<div class="modal fade" #modalCreatePres id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pt-2 pb-0 border-0">
+        <h1 class="modal-title fs-5" id="createModalLabel">Crear alerta para tomar receta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="$event.preventDefault();">
+            <!-- Nombre -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Nombre del medicamento</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="{{iconVia().icon}} text-success"></i></span>
+                <input type="text" class="form-control" placeholder="Ej. Amoxicilina" [formField]="alertForm.name">
+              </div>
+            </div>
+
+            <!-- Vía Administración -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Vía administración</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="{{iconVia().icon}} text-success"></i></span>
+                <select class="form-select" [formField]="alertForm.apply">
+                  <option disabled selected>Selecciona vía administrar</option>
+                  @for (item of viasAdministracion(); track $index) {
+                  <option [value]="item.nombre">
+                    {{item.nombre}}
+                  </option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <!-- Dosis -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Dosis</label>
+              <div class="row g-2">
+                <div class="col-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" [formField]="alertForm.mg" placeholder="Ej.   200">
+                    <span class="input-group-text bg-white text-success">mg</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" [formField]="alertForm.quantity" placeholder="Ej.   1">
+                    <span class="input-group-text bg-white text-success"><i class="{{iconVia().icon}} text-success"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Frecuencia -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Frecuencia</label>
+              <div class="input-group mb-2">
+                <span class="input-group-text bg-white"><i class="fa-regular fa-clock text-success"></i></span>
+                <select class="form-select" [formField]="alertForm.freqHours">
+                  <option disabled selected>Selecciona cada cuantas horas</option>
+                  @for (item of frecuencia(); track $index) {
+                  <option [value]="item">Cada {{item}}h</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <!-- Duración -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Duración</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="fa-regular fa-calendar text-success"></i></span>
+                <select class="form-select" [formField]="alertForm.days">
+                  <option disabled selected>Selecciona cuantos dias</option>
+                  @for (item of duracion(); track $index) {
+                  <option [value]="item">
+                    {{item === 0 ? "Indefinido" : item + ' días'}}
+                  </option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <!-- Notas -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-dark">Notas</label>
+              <textarea class="form-control" rows="3" [formField]="alertForm.notes"
+                placeholder="Ej. Tomar con alimentos. Evitar lácteos durante el tratamiento."></textarea>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer pb-1 pt-0 border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="savePresc()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="card p-0 mb-4 {{note().color}}">
+  <div class="card-body p-1 px-2 {{textColor()}}"
+  (click)="openModalEmit.emit( note() )"
+  >
+    @if(note().img) {
+    <div class="col-12 rounded pt-2">
+      <img [src]="note().img" class="w-100 img-base rounded">
+    </div>
+    }
+    <p class="m-0 p-0 mt-1 mb-1 fs-5 fw-semibold">{{note().title}}</p>
+    @if ( !isArray() ) {
+    <p class="card-text {{textColor()}} p-0 m-0">{{note().content}}</p>
+    } @else {
+    <table class="table table-borderless">
+      <tbody>
+        @for (item of (contentAsArray()); track $index) {
+        @if( item.type ) {
+        <tr>
+          <th class="p-0 m-0 bg-transparent {{textColor()}}" style="width: 26px !important;">
+            <i class="fa-regular fa-square" style="font-size: 18px !important;"
+              (click)="$event.stopPropagation(); changeState($index)"></i>
+          </th>
+          <td class="p-0 m-0 bg-transparent {{textColor()}}">{{ item.txt }}</td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+    <table class="table table-borderless border-top {{textColor()}} mt-2">
+      <tbody>
+        @for (item of (contentAsArray()); track $index) {
+        @if( !item.type ) {
+        <tr class="">
+          <th scope="row" class="p-0 m-0 bg-transparent {{textColor()}}" style="width: 26px !important;">
+            <i class="fa-regular fa-square-check text-decoration-line-through" style="font-size: 18px !important;"
+              (click)="$event.stopPropagation(); changeState($index)"></i>
+          </th>
+          <td class="text-decoration-line-through p-0 bg-transparent {{textColor()}}">{{ item.txt }}</td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+    }
+  </div>
+  <div class="card-footer border-0">
+    <div class="d-flex justify-content-between align-items-center px-2 footer-options">
+
+      <!-- BLOQUE IZQUIERDA - 3 iconos juntos -->
+      <div class="d-flex align-items-center gap-1">
+        <div class="p-0 d-flex justify-content-center align-items-center position-relative rounded"
+          (click)="isShowSelectColor.set(true)" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="Cambiar Color Fondo" style="cursor: pointer;">
+          <i class="fa-solid fa-palette {{textColor()}}"></i>
+          @if (isShowSelectColor()) {
+          <atom-select-color [colorInput]="bgColor()" (hideSelect)="isShowSelectColor.set(false)"
+            (colorSelected)="updateColor($event)">
+          </atom-select-color>
+          }
+        </div>
+
+        <div class="p-0 d-flex justify-content-center align-items-center rounded" (click)="updateNoteFix()"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Fijar/DesFijar Nota" style="cursor: pointer;">
+          <i class="fa-solid {{textColor()}}" [ngClass]="note().fix? 'fa-thumbtack-slash' : 'fa-thumbtack'"
+            style="font-size: 18px;"></i>
+        </div>
+
+        <div class="p-0 d-flex justify-content-center align-items-center rounded">
+          <label class="icono-carga-contenedor m-0" [for]="note().id" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Agregar Imagen">
+            <i class="fa-solid fa-image {{textColor()}}" style="cursor: pointer; font-size: 18px;"></i>
+          </label>
+          <input type="file" [id]="note().id" class="d-none" accept="image/*" (change)="onFileSelected($event)">
+        </div>
+      </div>
+
+      <!-- BLOQUE DERECHA - basura hasta la derecha -->
+      <div class="p-0 d-flex justify-content-center align-items-center rounded ms-auto"
+        (click)="$event.stopPropagation(); deleteNote(note().id, note());" style="cursor: pointer;" data-bs-toggle="tooltip"
+        data-bs-placement="top" title="Borrar Nota">
+        <i class="fa-solid fa-trash {{textColor()}} p-1" style="font-size: 16px!important;"></i>
+      </div>
+
+    </div>
+  </div>
+</div>

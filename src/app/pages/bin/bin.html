@@ -1,0 +1,29 @@
+<div class="container-fluid px-3 pb-5">
+
+  @if(noteService._bins().length > 0) {
+    <p class="fs-6 fw-light mb-0">Notas fijas</p>
+    <div class="masonry-container mt-2">
+      @for (item of noteService._bins(); track item.id) {
+        <!-- <note-list
+        class="masonry-item"
+        [note]="item"
+        (openModalEmit)="showModal($event)">
+        </note-list> -->
+        <bin-list [note]="item"
+        class="masonry-item"></bin-list>
+      }
+    </div>
+  } @else {
+    <div class="row justify-content-md-center mt-5">
+      <div class="col-12 text-center mt-5">
+        <i class="fa-solid fa-trash text-secondary" style="cursor: pointer; font-size: 48px !important;"></i>
+        <p class="titleb text-secondary" style="font-size: 48px !important; margin-left: 10px !important;">Papelera Vacía</p>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- @if ( noteModal(); as noteSelected ) {
+  <bin-modal></bin-modal>
+  <note-modal [noteInput]="noteSelected"(closed)="noteModal.set(null)"></note-modal>
+} -->

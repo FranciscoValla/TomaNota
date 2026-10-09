@@ -1,0 +1,35 @@
+<div class="container-fluid px-3 pb-5">
+  <div class="row justify-content-center">
+    <note-create class="d-block mb-3 col-12 col-md-8 col-lg-6"></note-create>
+  </div>
+
+  @if(notesFix().length > 0) {
+    <p class="fs-6 fw-light mb-0">Notas fijas</p>
+    <div class="masonry-container mt-2">
+      @for (item of notesFix(); track item.id) {
+        <note-list
+        class="masonry-item"
+        [note]="item"
+        (openModalEmit)="showModal($event)">
+        </note-list>
+      }
+    </div>
+  }
+
+  @if ( notesNormal().length > 0 ) {
+    <p class="fs-6 fw-light mb-0 mt-4">Notas normales</p>
+    <div class="masonry-container mt-2">
+      @for (item of notesNormal(); track item.id) {
+        <note-list
+        class="masonry-item"
+        [note]="item"
+        (openModalEmit)="showModal($event)">
+        </note-list>
+      }
+    </div>
+  }
+</div>
+
+@if ( noteModal(); as noteSelected ) {
+  <note-modal [noteInput]="noteSelected"(closed)="noteModal.set(null)"></note-modal>
+}

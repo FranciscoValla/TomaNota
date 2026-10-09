@@ -1,0 +1,4 @@
+export const environments = {
+  supabaseUrl: 'https://fpgytwgbqtitdliesqgg.supabase.co',
+  superbaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwZ3l0d2dicXRpdGRsaWVzcWdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNzI2NTksImV4cCI6MjEwNDc0ODY1OX0.IfGCkyff965NdjmU9rGNk9vjCIAU4cdTK2jDtth_C0I'
+}

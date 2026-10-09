@@ -1,0 +1,75 @@
+@for (item of prescService.scheduleToday(); track $index) {
+<div class="card p-0 my-3 border-0 shadow-sm rounded-4 overflow-hidden" (click)="showModal(item)">
+  <div class="card-body py-2 px-3 d-flex align-items-center {{bgColor(item.isApply, item.timeApply)}}">
+    <div class="flex-shrink-0">
+      @switch (item.isApply) {
+        @case ('success') {
+          <div class="border border-success rounded-circle p-0 d-flex justify-content-center align-items-center me-3"
+            style="width:48px; height:48px;">
+            <i class="fa-solid fa-check text-success"></i>
+          </div>
+        }
+        @case ('fail') {
+          <div
+            class="border border-danger rounded-circle p-0 d-flex justify-content-center align-items-center me-3"
+            style="width:48px; height:48px;">
+            <i class="fa-solid fa-xmark text-danger"></i>
+          </div>
+        }
+        @default {
+          @if (isVencido( dateApply(item.timeApply) )) {
+            <div style="width:48px; height:48px;"
+            class="border border-warning rounded-circle p-0 d-flex justify-content-center align-items-center me-3">
+              <i class="fa-solid fa-exclamation text-warning"></i>
+            </div>
+          } @else {
+            <div style="width:48px; height:48px;"
+            class="border border-primary rounded-circle p-0 d-flex justify-content-center align-items-center me-3">
+              <i class="fa-solid fa-capsules text-primary"></i>
+            </div>
+          }
+        }
+      }
+    </div>
+
+    <div class="d-flex flex-column align-items-start text-start flex-grow-1">
+      <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+        <span class="fw-bold text-dark m-0">
+          {{ bloq(item.timeApply) }} • {{ dateApply(item.timeApply) | date:'hh:mm a' }}
+        </span>
+
+        @switch (item.isApply) {
+          @case ('success') {
+            <small class="text-success fw-semibold"><i class="fa-solid fa-check me-1"></i>Completado</small>
+          }
+          @case ('fail') {
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger-subtle px-2 py-1">No tomado</span>
+          }
+          @default {
+            @if (isVencido( dateApply(item.timeApply) )) {
+              <span class="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning-subtle px-2 py-1">Olvidado</span>
+            } @else {
+              <span class="badge bg-primary bg-opacity-25 text-primary border border-primary-subtle px-2 py-1">Pendiente</span>
+            }
+          }
+        }
+      </div>
+
+      <!-- Fila Inferior: Nombre del medicamento y gramos/pastillas -->
+      <div class="w-100">
+        <span class="badge bg-light text-secondary border border-light-subtle fw-normal text-start text-wrap py-1 px-2"
+              style="font-size: 0.85rem;">
+          {{ item.name }} • {{ item.apply }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+}
+
+
+@if ( takeObj(); as item ){
+  <presc-take-modal [itemInp]="item" (closed)="takeObj.set(null)"></presc-take-modal>
+}

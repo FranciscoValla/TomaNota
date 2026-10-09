@@ -1,0 +1,20 @@
+<div class="modal fade" #modalTake id="modalTake" tabindex="-1" aria-labelledby="modalTakeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-warning-subtle">
+      <div class="modal-header pt-2 pb-0 border-0">
+        <h1 class="modal-title fs-5" id="modalTakeLabel">¿Tomaste éste medicamento?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fw-bolder fs-5 pb-0 mb-0">{{itemInp().name}}</p>
+        <p class="fs-6 fw-semibold pb-0 mb-0">{{itemInp().apply}}</p>
+        <p class="fs-6 fw-light">{{ bloq(itemInp().timeApply) }}... <i class="fa-regular fa-clock"></i> {{ dateApply(itemInp().timeApply) | date:'hh:mm a' }}</p>
+      </div>
+      <div class="modal-footer pb-1 pt-0 border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="updatePresc(false)">No</button>
+        <button type="button" class="btn btn-success" (click)="updatePresc(true)">Si</button>
+      </div>
+    </div>
+  </div>
+</div>

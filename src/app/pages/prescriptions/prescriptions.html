@@ -1,0 +1,22 @@
+<div class="container-fluid px-3">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+      <div class="d-flex align-items-stretch gap-2 mt-3 mb-4">
+        <div class="flex-grow-1">
+          <presc-next-presc></presc-next-presc>
+        </div>
+        <button type="button"
+          class="btn btn-success rounded-4 d-flex flex-column align-items-center justify-content-center px-3 border-0 shadow-sm text-white flex-shrink-0"
+          data-bs-toggle="modal" data-bs-target="#createModal" style="width: 76px;">
+          <i class="fa-solid fa-plus fs-5 mb-2"></i>
+          <small class="text-white fw-bold lh-sm text-center d-block"
+            style="font-size: 0.62rem; letter-spacing: 0.1px;">
+            Crear<br>Alerta<br>Receta
+          </small>
+        </button>
+      </div>
+      <presc-schedule-list></presc-schedule-list>
+      <presc-create-modal></presc-create-modal>
+    </div>
+  </div>
+</div>
